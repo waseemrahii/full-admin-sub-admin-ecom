@@ -194,6 +194,7 @@ const ProductDetail = () => {
                     <div className="flex flex-col gap-2 mt-4 md:mt-0">
                       <button
                         className={`px-4 py-2 rounded ${productData.status === "pending" ? "bg-green-500" : productData.status === "approved" ? "bg-red-500" : "bg-gray-500"}`}
+                        style={{color:"white"}}
                         onClick={() => handleUpdateStatus(productId, productData.status)}
                       >
                         {productData.status === "pending" ? "Activate" : productData.status === "approved" ? "Reject" : "Status Unchanged"}

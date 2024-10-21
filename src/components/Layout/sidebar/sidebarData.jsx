@@ -1,26 +1,42 @@
-import { IoHome, IoCartSharp, IoPersonOutline } from "react-icons/io5";
+import {
+  IoHome,
+  IoCartSharp,
+  IoPersonOutline,
+  IoSettingsOutline,
+} from "react-icons/io5";
 import {
   AiFillDatabase,
   AiFillPicture,
-  AiOutlineHdd,
   AiOutlineSpotify,
 } from "react-icons/ai";
-import { TbCategory2 } from "react-icons/tb";
-import { FaHeadset, FaKey, FaWarehouse } from "react-icons/fa";
+import { TbCategory2, TbWorld } from "react-icons/tb";
 import {
-  IoIosNotifications,
-  IoMdPerson,
-  IoMdStarOutline,
-} from "react-icons/io";
-import { MdGroups2, MdOutlineFolderZip } from "react-icons/md";
-import { FaMessage } from "react-icons/fa6";
+  FaHeadset,
+  FaKey,
+  FaNetworkWired,
+  FaStar,
+  FaWallet,
+  FaWarehouse,
+} from "react-icons/fa";
+import { IoIosNotifications, IoMdPerson } from "react-icons/io";
+import {
+  MdBarChart,
+  MdGroups2,
+  MdHealthAndSafety,
+  MdOutlineBarChart,
+  MdOutlineFolderZip,
+} from "react-icons/md";
+import { FaMessage, FaMicrophoneLines } from "react-icons/fa6";
 import { CiInboxOut } from "react-icons/ci";
-import { TfiAnnouncement } from "react-icons/tfi";
 import {
   BsFillPersonFill,
   BsReverseLayoutSidebarInsetReverse,
 } from "react-icons/bs";
 import { GrGallery } from "react-icons/gr";
+
+import { CgNotes } from "react-icons/cg";
+import { icon } from "@fortawesome/fontawesome-svg-core";
+import { ImStatsBars } from "react-icons/im";
 
 export const sidebarItems = [
   {
@@ -49,7 +65,7 @@ export const sidebarItems = [
   },
   {
     title: "Refund Requests",
-    icon: <AiFillDatabase />,
+    icon: <CgNotes />,
     isDropdown: true,
     subItems: [
       { title: "Pending Requests", link: "/pendingrefundrequests" },
@@ -73,7 +89,7 @@ export const sidebarItems = [
 
   {
     title: "Brand",
-    icon: <IoMdStarOutline />,
+    icon: <FaStar />,
     isDropdown: true,
     subItems: [
       { title: "Add New", link: "/addnewbrand" },
@@ -82,7 +98,7 @@ export const sidebarItems = [
   },
   {
     title: "Product Attribute Setup",
-    icon: <AiOutlineHdd />,
+    icon: <FaNetworkWired />,
     link: "/productattributesetup",
     isDropdown: false,
   },
@@ -98,7 +114,7 @@ export const sidebarItems = [
   },
   {
     title: "Vendor",
-    icon: <AiFillDatabase />,
+    icon: <FaWallet />,
     isDropdown: true,
     subItems: [
       { title: "Vendor List", link: "/venderlist" },
@@ -112,18 +128,18 @@ export const sidebarItems = [
     icon: <AiOutlineSpotify />,
     isDropdown: true,
     subItems: [
-      { title: "New Products Requests", link: "/vendernew" },
+      // { title: "New Products Requests", link: "/vendernew" },
       { title: "New Product Requests", link: "/venderpendingproduct" },
       { title: "Approved Products", link: "/venderapprove" },
       { title: "Denied Products", link: "/venderdenied" },
     ],
   },
-  {
-    title: "Product Gallery",
-    icon: <GrGallery />,
-    link: "/productgallery",
-    isDropdown: false,
-  },
+  // {
+  //   title: "Product Gallery",
+  //   icon: <GrGallery />,
+  //   link: "/productgallery",
+  //   isDropdown: false,
+  // },
 
   {
     SubHeading: "Promotion management",
@@ -159,7 +175,7 @@ export const sidebarItems = [
   {
     title: "Announcement",
 
-    icon: <TfiAnnouncement />,
+    icon: <FaMicrophoneLines />,
     link: "/announcement",
     isDropdown: false,
   },
@@ -167,6 +183,7 @@ export const sidebarItems = [
   {
     title: "Help and Support",
     isDropdown: true,
+    icon: <MdHealthAndSafety />,
     subItems: [
       {
         title: "Inbox",
@@ -189,6 +206,7 @@ export const sidebarItems = [
   {
     SubHeading: "Reports & Analysis",
     title: "Sales & Transaction",
+    icon: <MdBarChart />,
     isDropdown: true,
     subItems: [
       { title: "Earning Report", link: "/earningreport" },
@@ -200,13 +218,13 @@ export const sidebarItems = [
 
   {
     title: "Product Report",
-    icon: <IoHome />,
+    icon: <MdOutlineBarChart />,
     link: "/productreport",
     isDropdown: false,
   },
   {
     title: "Order Report",
-    icon: <IoHome />,
+    icon: <ImStatsBars />,
     link: "/orderreport",
     isDropdown: false,
   },
@@ -251,8 +269,8 @@ export const sidebarItems = [
   },
 
   {
-    title: "System Settings",
-    icon: <BsReverseLayoutSidebarInsetReverse />,
+    title: "Business Setup",
+    icon: <TbWorld />,
     isDropdown: true,
     subItems: [
       { title: "Business Setup", link: "/appsettings" },
@@ -261,7 +279,7 @@ export const sidebarItems = [
   },
   {
     title: "System Setup",
-    icon: <BsReverseLayoutSidebarInsetReverse />,
+    icon: <IoSettingsOutline />,
     isDropdown: true,
     subItems: [
       { title: "System Settings", link: "/systemsetups" },

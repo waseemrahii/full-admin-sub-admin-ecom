@@ -1355,12 +1355,12 @@ const Sidebar = ({ toggleSidebar }) => {
   });
 
   return (
-    <aside className="bg-primary text-white w-64 min-h-screen p-4 flex flex-col fixed left-0 h-full overflow-y-scroll">
+    <aside className="bg-primary text-white w-64 min-h-screen top-0  p-4 flex flex-col fixed left-0 h-full overflow-y-scroll">
       {/* Search Box */}
-      <div className="pb-3 lg:pt-4">
+      <div className="sticky top-0 bg-primary pt-4 pb-2 z-10">
         <input
           type="text"
-          className="ml-2 p-2 bg-primary border text-white border-white rounded-md focus:outline-none w-full placeholder-white"
+          className="ml-2 p-2 bg-primary border  mt-12 text-white border-white rounded-md focus:outline-none w-full placeholder-white"
           placeholder="Search menu..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)} // Update searchTerm state
@@ -1386,7 +1386,7 @@ const Sidebar = ({ toggleSidebar }) => {
                 </span>
               </button>
               {activeDropdown === index && (
-                <ul className="ml-2 space-y-1">
+                <ul className="ml-2 ">
                   {item.subItems.map((subItem, subIndex) => (
                     <li key={subIndex}>
                       <Link
@@ -1410,7 +1410,7 @@ const Sidebar = ({ toggleSidebar }) => {
               <h1 className="text-gray-300">{item.SubHeading}</h1>
               <Link
                 to={item.link}
-                className="flex items-center gap-2 w-full text-left p-2 rounded hover:bg-[#52c970] text-white mb-3"
+                className="flex items-center gap-2 w-full text-left p-2 rounded hover:bg-[#52c970] text-white "
                 onClick={toggleSidebar}
                 style={{ color: "white" }}
               >
@@ -1425,5 +1425,3 @@ const Sidebar = ({ toggleSidebar }) => {
 };
 
 export default Sidebar;
-
-

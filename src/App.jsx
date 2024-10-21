@@ -128,7 +128,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Router>
         <div className="flex flex-col min-h-screen">
-          {/* {isLoggedIn ? ( */}
+          {isLoggedIn ? (
           <>
             <Header />
             <div className="flex flex-1">
@@ -156,12 +156,12 @@ function App() {
               </main>
             </div>
           </>
-          {/* ) : (
+           ) : (
             <Routes>
               <Route path="/login" element={<LoginPage />} />
               <Route path="*" element={<Navigate to="/login" />} />
             </Routes>
-          )} */}
+          )} 
         </div>
       </Router>
     </QueryClientProvider>

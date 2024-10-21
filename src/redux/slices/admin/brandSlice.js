@@ -68,7 +68,7 @@ export const updateBrand = createAsyncThunk(
   'brand/updateBrand',
   async ({ brandId, brandData }, { rejectWithValue }) => {
     try {
-      const { token } = getAuthData(); // Use getAuthData to retrieve token
+      const { token } = getAuthData(); 
       const formData = new FormData();
       for (const key in brandData) {
         formData.append(key, brandData[key]);
@@ -76,7 +76,6 @@ export const updateBrand = createAsyncThunk(
 
       const response = await axiosInstance.put(`${API_URL}/${brandId}`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
         },
       });

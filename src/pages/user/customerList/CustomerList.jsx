@@ -15,6 +15,7 @@ import ActionButton from "../../../components/ActionButton/Action";
 const CustomerList = React.memo(() => {
   const dispatch = useDispatch();
   const { customers, status, error } = useSelector((state) => state.customers);
+
   const [searchQuery, setSearchQuery] = useState("");
 
   // Fetch customer data when the component mounts

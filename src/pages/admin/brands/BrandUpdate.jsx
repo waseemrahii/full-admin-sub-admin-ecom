@@ -33,7 +33,7 @@ const BrandUpdate = () => {
     if (currentBrand) {
       console.log("Current brand details:", currentBrand);
       setBrandName(currentBrand.name);
-      const imageUrl = `${ImageApiUrl}/${currentBrand.logo}`;
+      const imageUrl = `{currentBrand.logo}`;
       setBrandImage(imageUrl);
       console.log("Constructed image URL:", imageUrl);
     }

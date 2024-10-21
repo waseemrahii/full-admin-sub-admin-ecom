@@ -75,7 +75,7 @@ const VendorDeniedProductPage = () => {
         category: '',
         searchValue: '',
         userType: 'vendor', // Filter for vendor
-        status: 'denied', // Filter for denied status
+        status: 'rejected', // Filter for denied status
         vendorNew4Days: false
       }}
     />

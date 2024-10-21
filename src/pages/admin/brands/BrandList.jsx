@@ -62,8 +62,8 @@ const BrandList = () => {
         <img src={brand.logo} alt={brand.name} className="h-16 w-16" />
       ),
     },
-    { key: "totalProduct", label: "Total Product" },
-    { key: "totalOrder", label: "Total Order" },
+    { key: "totalProducts", label: "Total Product" },
+    { key: "totalOrders", label: "Total Order" },
     {
       key: "status",
       label: "Status",
@@ -80,7 +80,7 @@ const BrandList = () => {
       render: (brand) => (
         <div className="flex justify-center gap-2">
           <ActionButton
-            to={`/update/${brand._id}`}
+            to={`/brandupdate/${brand._id}`}
             icon={FaEdit}
        
           />

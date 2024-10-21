@@ -154,7 +154,8 @@ const ProductTable = React.memo(
                       <div className="btn-group flex gap-3">
                         <Link
                           to={`/products/${product._id}`}
-                          className="btn border-primary text-primary hover:bg-primary hover:text-white"
+                           className="btn border-primary text-primary hover:bg-primary hover:text-white"
+                            style={{color:"white"}}
                           title="View"
                         >
                           <FiEye />
