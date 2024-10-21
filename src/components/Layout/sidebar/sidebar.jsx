@@ -1300,20 +1300,158 @@
 ///////// 
 
 
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
+// import { Link } from "react-router-dom";
+// import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+// import { sidebarItems as allSidebarItems } from "./sideBarData";
+// import { BsDot } from "react-icons/bs";
+// import { getAuthData } from "../../../../../../../utils/authHelper"; // Import function to get token
+
+// const Sidebar = ({ toggleSidebar }) => {
+//   const [activeDropdown, setActiveDropdown] = useState(null);
+//   const [sidebarItems, setSidebarItems] = useState([]);
+//   const [searchTerm, setSearchTerm] = useState(""); // State for search input
+//   const { token, user } = getAuthData(); // Get token
+
+//   useEffect(() => {
+//     const user?.role = "admin"; // Assume role here for demo purposes
+
+//     const filteredItems = allSidebarItems.filter((item) => {
+//       if (role === "admin") return true;
+
+//       if (role === "sub_admin") {
+//         return (
+//           item.title !== "User Management" &&
+//           item.title !== "Delivery Man" &&
+//           item.title !== "Employees" &&
+//           item.title !== "Pages & Media" &&
+//           item.title !== "3rd Party" &&
+//           item.title !== "System Setup" &&
+//           item.title !== "System Settings" &&
+//           item.title !== "Subscribers" &&
+//           item.title !== "Employees" &&
+//           item.title !== "Subscribers"
+//         );
+//       }
+
+//       return false;
+//     });
+
+//     setSidebarItems(filteredItems);
+//   }, []);
+
+//   const toggleDropdown = (index) => {
+//     setActiveDropdown(activeDropdown === index ? null : index);
+//   };
+
+//   // Filter sidebar items based on search term
+//   const filteredSidebarItems = sidebarItems.filter((item) => {
+//     const searchQuery = searchTerm.toLowerCase();
+//     return (
+//       item.title.toLowerCase().includes(searchQuery) ||
+//       (item.subItems &&
+//         item.subItems.some((subItem) =>
+//           subItem.title.toLowerCase().includes(searchQuery)
+//         ))
+//     );
+//   });
+
+//   return (
+//     <aside className="bg-primary text-white w-64 min-h-screen top-0  p-4 flex flex-col fixed left-0 h-full overflow-y-scroll">
+//       {/* Search Box */}
+//       <div className="sticky top-0 bg-primary pt-4 pb-2 z-10">
+//         <input
+//           type="text"
+//           className="ml-2 p-2 bg-primary border  mt-12 text-white border-white rounded-md focus:outline-none w-full placeholder-white"
+//           placeholder="Search menu..."
+//           value={searchTerm}
+//           onChange={(e) => setSearchTerm(e.target.value)} // Update searchTerm state
+//         />
+//       </div>
+
+//       {/* Sidebar Items */}
+//       {filteredSidebarItems.map((item, index) => (
+//         <div key={index} className="mt-2">
+//           {item.isDropdown ? (
+//             <>
+//               <h1 className="text-gray-300 mb-2">{item.SubHeading}</h1>
+//               <button
+//                 className="w-full text-left p-2 rounded hover:bg-[#52c970] text-white flex justify-between"
+//                 onClick={() => toggleDropdown(index)}
+//                 style={{ color: "white" }}
+//               >
+//                 <div className="flex items-center gap-2">
+//                   {item.icon} {item.title}
+//                 </div>
+//                 <span>
+//                   {activeDropdown === index ? <FaAngleUp /> : <FaAngleDown />}
+//                 </span>
+//               </button>
+//               {activeDropdown === index && (
+//                 <ul className="ml-2 ">
+//                   {item.subItems.map((subItem, subIndex) => (
+//                     <li key={subIndex}>
+//                       <Link
+//                         to={subItem.link}
+//                         className="w-full flex items-center text-left p-1 pl-4 rounded hover:bg-[#4CAF50] text-white"
+//                         onClick={toggleSidebar}
+//                         style={{ color: "white" }}
+//                       >
+//                         <span>
+//                           <BsDot className="font-bold text-[1rem]" />
+//                         </span>{" "}
+//                         {subItem.title}
+//                       </Link>
+//                     </li>
+//                   ))}
+//                 </ul>
+//               )}
+//             </>
+//           ) : (
+//             <>
+//               <h1 className="text-gray-300">{item.SubHeading}</h1>
+//               <Link
+//                 to={item.link}
+//                 className="flex items-center gap-2 w-full text-left p-2 rounded hover:bg-[#52c970] text-white "
+//                 onClick={toggleSidebar}
+//                 style={{ color: "white" }}
+//               >
+//                 {item.icon} {item.title}
+//               </Link>
+//             </>
+//           )}
+//         </div>
+//       ))}
+//     </aside>
+//   );
+// };
+
+// export default Sidebar;
+
+
+/////
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { sidebarItems as allSidebarItems } from "./sideBarData";
 import { BsDot } from "react-icons/bs";
+import { getAuthData } from "../../../utils/authHelper"; // Import function to get token
 
+// Memoizing the user data
 const Sidebar = ({ toggleSidebar }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [sidebarItems, setSidebarItems] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(""); // State for search input
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Memoize the user data
+  const { token, user } = useMemo(() => getAuthData(), []); // Empty array to ensure it only runs once
 
   useEffect(() => {
-    const role = "admin"; // Assume role here for demo purposes
+    if (!user) return; // Prevent further execution if user data is not available
 
+    const role = user?.role?.name || "guest";
+
+    // Filter sidebar items based on role
     const filteredItems = allSidebarItems.filter((item) => {
       if (role === "admin") return true;
 
@@ -1326,23 +1464,21 @@ const Sidebar = ({ toggleSidebar }) => {
           item.title !== "3rd Party" &&
           item.title !== "System Setup" &&
           item.title !== "System Settings" &&
-          item.title !== "Subscribers" &&
-          item.title !== "Employees" &&
           item.title !== "Subscribers"
         );
       }
 
-      return false;
+      return false; // Other roles (like guest) get no items
     });
 
     setSidebarItems(filteredItems);
-  }, []);
+  }, [user]); // Ensure useEffect runs only when user changes
 
   const toggleDropdown = (index) => {
     setActiveDropdown(activeDropdown === index ? null : index);
   };
 
-  // Filter sidebar items based on search term
+  // Filtering sidebar items based on search term
   const filteredSidebarItems = sidebarItems.filter((item) => {
     const searchQuery = searchTerm.toLowerCase();
     return (
@@ -1355,12 +1491,12 @@ const Sidebar = ({ toggleSidebar }) => {
   });
 
   return (
-    <aside className="bg-primary text-white w-64 min-h-screen top-0  p-4 flex flex-col fixed left-0 h-full overflow-y-scroll">
+    <aside className="bg-primary text-white w-64 min-h-screen top-0 p-4 flex flex-col fixed left-0 h-full overflow-y-scroll">
       {/* Search Box */}
       <div className="sticky top-0 bg-primary pt-4 pb-2 z-10">
         <input
           type="text"
-          className="ml-2 p-2 bg-primary border  mt-12 text-white border-white rounded-md focus:outline-none w-full placeholder-white"
+          className="ml-2 p-2 bg-primary border mt-12 text-white border-white rounded-md focus:outline-none w-full placeholder-white"
           placeholder="Search menu..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)} // Update searchTerm state
@@ -1386,7 +1522,7 @@ const Sidebar = ({ toggleSidebar }) => {
                 </span>
               </button>
               {activeDropdown === index && (
-                <ul className="ml-2 ">
+                <ul className="ml-2">
                   {item.subItems.map((subItem, subIndex) => (
                     <li key={subIndex}>
                       <Link
@@ -1410,7 +1546,7 @@ const Sidebar = ({ toggleSidebar }) => {
               <h1 className="text-gray-300">{item.SubHeading}</h1>
               <Link
                 to={item.link}
-                className="flex items-center gap-2 w-full text-left p-2 rounded hover:bg-[#52c970] text-white "
+                className="flex items-center gap-2 w-full text-left p-2 rounded hover:bg-[#52c970] text-white"
                 onClick={toggleSidebar}
                 style={{ color: "white" }}
               >

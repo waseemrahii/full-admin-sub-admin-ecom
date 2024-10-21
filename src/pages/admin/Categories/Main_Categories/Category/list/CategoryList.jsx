@@ -63,8 +63,7 @@ const CategoryList = React.memo(
         listData={categories}
         columns={columns}
         searchPlaceholder="Search categories..."
-        itemKey="_id"
-        itemsPerPage={10} // You can change the number of items per page as needed
+       
       />
     );
   }

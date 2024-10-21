@@ -5,10 +5,40 @@ import ActionButton from "../../../../../components/ActionButton/Action";
 
 const SubSubCategoryList = React.memo(
   ({ subCategories, handleDelete, handleEdit }) => {  // Added handleEdit as a prop
+    // const columns = useMemo(() => [
+    //   { key: "_id", label: "ID", render: (item) => `SS${item._id.substring(0, 6)}` },
+    //   { key: "name", label: "Sub Category Name" },
+    //   { key: "mainCategory", label: "Main Category", render: (item) => item.mainCategory.name },
+    //   { key: "priority", label: "Priority", render: (item) => item.priority || "0" },
+    //   {
+    //     key: "actions",
+    //     label: "Actions",
+    //     render: (item) => (
+    //       <div className="d-flex gap-2 justify-content-center">
+    //         <ActionButton
+    //           onClick={() => handleEdit(item)} // Trigger the handleEdit function
+    //           icon={FaPen} // View icon
+    //           className="ml-4 border-green-500"
+    //         />
+    //         <ActionButton
+    //           onClick={() => handleDelete(item._id)}
+    //           icon={FaTrash} // Delete icon
+    //           className="ml-4"
+    //         />
+    //       </div>
+    //     ),
+    //   },
+    // ], [handleDelete, handleEdit]); // Include handleEdit in dependencies
+
+
     const columns = useMemo(() => [
       { key: "_id", label: "ID", render: (item) => `SS${item._id.substring(0, 6)}` },
       { key: "name", label: "Sub Category Name" },
-      { key: "mainCategory", label: "Main Category", render: (item) => item.mainCategory.name },
+      { 
+        key: "mainCategory", 
+        label: "Main Category", 
+        render: (item) => item?.mainCategory?.name || "No Main Category" // Add null checks
+      },
       { key: "priority", label: "Priority", render: (item) => item.priority || "0" },
       {
         key: "actions",
@@ -17,7 +47,7 @@ const SubSubCategoryList = React.memo(
           <div className="d-flex gap-2 justify-content-center">
             <ActionButton
               onClick={() => handleEdit(item)} // Trigger the handleEdit function
-              icon={FaPen} // View icon
+              icon={FaPen} // Edit icon
               className="ml-4 border-green-500"
             />
             <ActionButton

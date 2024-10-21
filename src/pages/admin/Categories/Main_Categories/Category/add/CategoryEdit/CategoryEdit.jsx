@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ApiUrl from "../../../../../../../ApiUrl";
-import ImageApiUrl from "../../../../../../../ImageApiUrl";
+import { getAuthData } from "../../../../../../../utils/authHelper"; // Import function to get token
+import apiConfig from '../../../../../../../config/apiConfig'; // Import apiConfig for API URLs
+const ApiUrl = `${apiConfig.admin}`; // Use admin role
 
 const CategoryUpdate = () => {
   const { id } = useParams(); // Extract category ID from URL params
@@ -16,82 +17,82 @@ const CategoryUpdate = () => {
     logo: null,
   });
 
+  // Fetch category data by ID
   useEffect(() => {
     if (id) {
       fetchCategoryById(id);
     }
   }, [id]);
 
-  const fetchCategoryById = (id) => {
-    axios
-      .get(`${ApiUrl}categories/${id}`)
-      .then((response) => {
-        const category = response.data.doc;
-        setCategoryData({
-          name: category.name || "",
-          priority: category.priority || 0,
-          logo: category.logo || null,
-        });
-        // Set the image preview if available
-        const viewer = document.getElementById("viewer");
-        if (category.logo) {
-          viewer.src = `${ImageApiUrl}/uploads/${category.logo}`;
-        } else {
-          viewer.src = "/image-place-holder.png";
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching category:", error);
-        toast.error("Error fetching category");
+  const fetchCategoryById = async (categoryId) => {
+    try {
+      const { token } = getAuthData(); // Get token
+      const response = await axios.get(`${ApiUrl}/categories/${categoryId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
-  };
-
-  const handleLangChange = (lang) => {
-    setSelectedLang(lang);
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setCategoryData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setCategoryData((prevState) => ({
-      ...prevState,
-      logo: file,
-    }));
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      document.getElementById("viewer").src = reader.result;
-    };
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("name", categoryData.name);
-    formData.append("priority", categoryData.priority);
-    if (categoryData.logo) {
-      formData.append("logo", categoryData.logo);
+      console.log("response data ====", response)
+      const { name, priority, logo } = response.data.doc;
+      setCategoryData({ name, priority, logo });
+    } catch (error) {
+      console.error("Failed to fetch category:", error);
+      toast.error("Failed to fetch category data");
     }
+  };
 
-    axios
-      .put(`${ApiUrl}categories/${id}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      .then((response) => {
-        toast.success("Category updated successfully");
-        navigate("/categories"); // Navigate back to categories list or another page
-      })
-      .catch((error) => {
-        console.error("Error updating category:", error);
-        toast.error("Error updating category");
+  // Handle input change for category form fields
+  const handleInputChange = (e) => {
+    setCategoryData({ ...categoryData, [e.target.name]: e.target.value });
+  };
+
+  // Convert selected image to base64
+  const handleFileChange = useCallback((e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setCategoryData((prevState) => ({
+          ...prevState,
+          logo: reader.result, // Store base64 image string
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  }, []);
+
+  // Handle form submit to update category
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = {
+      name: categoryData.name,
+      priority: categoryData.priority,
+      logo: categoryData.logo, // Already in base64 format
+    };
+
+    try {
+      const { token } = getAuthData(); // Get token
+      const response = await fetch(`${ApiUrl}/categories/${id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to update category");
+      }
+
+      const responseData = await response.json();
+      console.log("Category updated:", responseData);
+      toast.success("Category updated successfully");
+      navigate("/categories"); // Navigate after successful update
+    } catch (error) {
+      console.error("Error updating category:", error);
+      toast.error("Error updating category");
+    }
   };
 
   return (
@@ -114,7 +115,7 @@ const CategoryUpdate = () => {
                         className={`nav-link form-system-language-tab cursor-pointer ${
                           selectedLang === lang ? "active" : ""
                         }`}
-                        onClick={() => handleLangChange(lang)}
+                        onClick={() => setSelectedLang(lang)}
                       >
                         {lang === "en" && "English(EN)"}
                         {lang === "sa" && "Arabic(SA)"}
@@ -154,11 +155,9 @@ const CategoryForm = ({
               selectedLang === lang ? "" : "d-none"
             } form-system-language-form`}
             key={lang}
-            id={`${lang}-form`}
           >
             <label className="title-color">
-              Category Name<span className="text-danger">*</span> (
-              {lang.toUpperCase()})
+              Category Name<span className="text-danger">*</span> ({lang.toUpperCase()})
             </label>
             <input
               type="text"
@@ -213,13 +212,13 @@ const CategoryForm = ({
       <div className="col-lg-6 mt-4 mt-lg-0 from_part_2">
         <div className="form-group flex">
           <div
-            className="text-center flex justify-center "
+            className="text-center flex justify-center"
             style={{ width: "50%" }}
           >
             <img
               className="upload-img-view"
               id="viewer"
-              src="/image-place-holder.png"
+              src={categoryData.logo || "/image-place-holder.png"}
               alt="Category Logo"
               width="500"
               height="500"

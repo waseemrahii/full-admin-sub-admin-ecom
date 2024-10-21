@@ -125,7 +125,7 @@ function AllRoutes() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" />} />
+      <Route path="/" element={<Navigate to="/dashboard" />} />
         <Route path="/businesssetup" element={<BusinessSetupShop />} />
         <Route path="/vendernew" element={<VendorNewRequestProductPage />} />
         <Route
@@ -247,7 +247,8 @@ function AllRoutes() {
           path="/addvenderwidthrawtmethod"
           element={<WithdrawalMethods />}
         />
-        <Route path="*" element={<NotFoundPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+
       </Routes>
     </>
   );
