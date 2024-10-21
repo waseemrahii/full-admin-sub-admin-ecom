@@ -314,9 +314,11 @@ const InhouseProductUpdate = () => {
     attributes,
   } = useSelector((state) => state.category);
 
-  const { loading, error, product } = useSelector((state) => state.product);  // Assuming 'product' holds the fetched product
-   console.log("product id from param", productId)
-   console.log("product by fetch by id", product)
+  const { loading, error, products } = useSelector((state) => state.product);  // Assuming 'product' holds the fetched product
+  const product = products.find((prod) => prod._id === productId); // Assuming products is an array
+  
+  console.log("product id from param", productId)
+  console.log("product by fetch by id", product)
   // Form states
   const initialFormState = {
     name: "",
@@ -349,7 +351,7 @@ const InhouseProductUpdate = () => {
   const [selectedColors, setSelectedColors] = useState([]);
   const [productAttributes, setProductAttributes] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
-
+  
   // Fetch categories, brands, etc.
   useEffect(() => {
     dispatch(fetchCategories());
@@ -358,13 +360,11 @@ const InhouseProductUpdate = () => {
     dispatch(fetchAttributes());
   }, [dispatch]);
 
-  // Fetch product by ID on component mount
-  useEffect(() => {
-    if (productId) {
-      dispatch(fetchProductById({ productId }));
-    }
-  }, [dispatch, productId]);
 
+
+  useEffect(() => {
+    dispatch(fetchProductById({ productId }));
+  }, [dispatch, productId]);
   // Populate form when product data is fetched
   useEffect(() => {
     if (product) {
@@ -427,8 +427,9 @@ const InhouseProductUpdate = () => {
         userId,
         thumbnail,
         images,
-        colors: selectedColors.map((color) => color._id),
-        attributes: productAttributes.map((attr) => attr._id),
+        colors: selectedColors.length > 0 ? selectedColors.map((color) => color._id) : "670cfed380e29f2b61f2303b",  // Set to null if empty
+        attributes: productAttributes.length > 0 ? productAttributes.map((attr) => attr._id) : "670ce98d631254b4caad8640",  // Set to null if empty
+  
       };
 
       const response = await fetch(`${API_URL}/${productId}`, {

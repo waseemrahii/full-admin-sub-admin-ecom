@@ -39,7 +39,7 @@ export const fetchProductById = createAsyncThunk(
           Authorization: `Bearer ${token}`
         }
       });
-      return response.data; // Accessing product data from the `doc` field
+      return response.data.doc; // Accessing product data from the `doc` field
     } catch (error) {
       return rejectWithValue(ErrorMessage(error)); // Utilize ErrorMessage utility
     }

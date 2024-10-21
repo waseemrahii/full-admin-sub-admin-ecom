@@ -318,7 +318,7 @@ const ProductGeneral = ({ formData, handleChange, setFormData }) => {
   //         tagsArray.forEach((tag) => productFormData.append("tags[]", tag));
 
   const [tags, setTags] = useState(
-    formData.tags ? formData.tags.split(",") : []
+    // formData.tags ? formData.tags.split(",") : []
   );
   const [filteredSubCategories, setFilteredSubCategories] = useState([]);
   const [filteredSubSubCategories, setFilteredSubSubCategories] = useState([]);
@@ -564,7 +564,7 @@ const ProductGeneral = ({ formData, handleChange, setFormData }) => {
         {/* Tags Section */}
         <div className="flex flex-col mt-4">
           <label className="font-semibold"> Search Tags</label>
-          <div className="flex flex-wrap border border-gray-300 p-2 rounded">
+          {/* <div className="flex flex-wrap border border-gray-300 p-2 rounded">
             {tags.map((tag, index) => (
               <span
                 key={index}
@@ -583,7 +583,7 @@ const ProductGeneral = ({ formData, handleChange, setFormData }) => {
               placeholder="Press Enter to add tag"
               onKeyPress={handleTagInput}
             />
-          </div>
+          </div> */}
         </div>
       </FormSection>
     </>
