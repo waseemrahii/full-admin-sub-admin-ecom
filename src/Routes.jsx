@@ -152,7 +152,7 @@ function AllRoutes() {
         <Route path="/inhouseproductlist" element={<InHouseProductPage />} />
         {/* <Route path="/inhouseproductlistcode" element={<GenerateBarcode />} /> */}
         <Route path="/products/:productId" element={<ProductDetails />} />
-        <Route path="//product/:id" element={<InhouseProductUpdate />} />
+        <Route path="/product/:productId" element={<InhouseProductUpdate />} />
         <Route path="/inhouseaddproduct" element={<AddInHouseNewProduct />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/categoryedit/:id" element={<CategoryUpdate />} />
