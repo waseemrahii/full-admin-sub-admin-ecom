@@ -52,7 +52,7 @@ const InHouseProductList = ({
       minPrice: filters.minPrice || undefined,
       maxPrice: filters.maxPrice || undefined,
     };
-    console.log("Fetching products with cleaned filters:", cleanFilters);
+    // console.log("Fetching products with cleaned filters:", cleanFilters);
     dispatch(fetchProducts(cleanFilters));
     dispatch(fetchCategories());
     dispatch(fetchBrands());

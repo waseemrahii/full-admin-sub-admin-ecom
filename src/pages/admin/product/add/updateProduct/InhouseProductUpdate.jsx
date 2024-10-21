@@ -295,9 +295,11 @@ import {
   fetchAttributes,
   fetchSubCategories,
   fetchSubSubCategories,
-  fetchProductById,  // Assuming you have a slice for fetching a product by ID
 } from "../../../../../redux/slices/admin/categorybrandSlice";
-
+import {
+  fetchProductById,
+  updateProductStatus,
+} from '../../../../../redux/slices/seller/productSlice';
 const API_URL = `${apiConfig.seller}/products`;
 
 const InhouseProductUpdate = () => {
@@ -305,7 +307,8 @@ const InhouseProductUpdate = () => {
   const dispatch = useDispatch();
 
   const { loading, error, product } = useSelector((state) => state.product);  // Assuming 'product' holds the fetched product
-
+   console.log("product id from param", productId)
+   console.log("product by fetch by id", product)
   // Form states
   const initialFormState = {
     name: "",
