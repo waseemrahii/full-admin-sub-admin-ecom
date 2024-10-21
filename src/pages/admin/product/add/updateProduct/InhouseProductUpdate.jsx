@@ -303,8 +303,16 @@ import {
 const API_URL = `${apiConfig.seller}/products`;
 
 const InhouseProductUpdate = () => {
-  const { productId } = useParams();  // Get productId from the URL params
   const dispatch = useDispatch();
+  const { productId } = useParams();  // Get productId from the URL params
+  const {
+    categories,
+    subCategories,
+    subSubCategories,
+    brands,
+    colors,
+    attributes,
+  } = useSelector((state) => state.category);
 
   const { loading, error, product } = useSelector((state) => state.product);  // Assuming 'product' holds the fetched product
    console.log("product id from param", productId)
